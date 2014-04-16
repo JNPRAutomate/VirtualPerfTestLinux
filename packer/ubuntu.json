@@ -1,0 +1,39 @@
+{
+    "variables": {
+        "ssh_name": "foo",
+        "ssh_pass": "bar",
+        "hostname": "NetDevOps"
+    },
+    "builders": [{
+        "type": "vmware-iso",
+        "guest_os_type": "ubuntu",
+        "ssh_username": "packer",
+        "ssh_wait_timeout": "360s",
+        "iso_url": "http://old-releases.ubuntu.com/releases/precise/ubuntu-12.04.2-server-amd64.iso",
+        "iso_checksum": "af5f788aee1b32c4b2634734309cc9e9",
+        "iso_checksum_type": "md5",
+        "shutdown_command": "shutdown -P now",
+        "boot_command":[
+            "<esc><esc><enter><wait>",
+            "/install/vmlinuz auto",
+            " console-setup/ask_detect=false",
+            " console-setup/layoutcode=us",
+            " console-setup/modelcode=pc105",
+            " debconf/frontend=noninteractive",
+            " debian-installer=en_US",
+            " fb=false",
+            " initrd=/install/initrd.gz",
+            " kbd-chooser/method=us",
+            " keyboard-configuration/layout=USA",
+            " keyboard-configuration/variant=USA",
+            " file=http://192.168.116.1:8080/ubuntu1404.seed",
+            " ks=http://192.168.116.1:8080/ubuntu1404.ks.cfg",
+            " locale=en_US",
+            " netcfg/get_domain=vm",
+            " netcfg/get_hostname=vagrant",
+            " noapic",
+            "--",
+            "<enter>"
+        ]
+    }]
+}
