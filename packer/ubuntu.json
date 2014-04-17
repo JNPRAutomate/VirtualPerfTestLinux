@@ -7,10 +7,11 @@
     "builders": [{
         "type": "vmware-iso",
         "disk_size": 8000,
-        "guest_os_type": "Ubuntu_64",
+        "guest_os_type": "ubuntu",
         "ssh_username": "tester",
         "ssh_password": "tester",
         "ssh_wait_timeout": "3600s",
+        "tools_upload_flavor":"linux",
         "iso_url": "http://localhost:8080/ubuntu-14.04-beta2-server-amd64.iso",
         "iso_checksum": "435d1e7d8425ec7332ceaeb0d7f04664",
         "iso_checksum_type": "md5",
