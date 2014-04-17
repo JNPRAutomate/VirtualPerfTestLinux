@@ -4,18 +4,41 @@
         "ssh_pass": "bar",
         "hostname": "FooBar"
     },
+    "provisioners": [{
+        "type":"shell",
+        "scripts":[
+            "scripts/vmwaretools.sh"
+        ],
+        "only":["vmware-iso"]
+    },{
+        "type": "shell",
+        "scripts": [
+            "scripts/ipforwarding.sh",
+            "scripts/zerodisk.sh"
+        ]
+    }],
     "builders": [{
         "type": "vmware-iso",
-        "disk_size": 8000,
-        "guest_os_type": "ubuntu",
+        "disk_size": 4096,
+        "http_directory":"../seed_files",
+        "guest_os_type": "ubuntu-64",
+        "skip_compaction":false,
         "ssh_username": "tester",
         "ssh_password": "tester",
         "ssh_wait_timeout": "3600s",
         "tools_upload_flavor":"linux",
-        "iso_url": "http://localhost:8080/ubuntu-14.04-beta2-server-amd64.iso",
-        "iso_checksum": "435d1e7d8425ec7332ceaeb0d7f04664",
+        "tools_upload_path":"/tmp/{{.Flavor}}.iso",
+        "iso_url": "../seed_files/ubuntu-14.04-server-amd64.iso",
+        "iso_checksum": "01545fa976c8367b4f0d59169ac4866c",
         "iso_checksum_type": "md5",
         "shutdown_command": "sudo shutdown -P now",
+        "vmdk_name":"VPTL",
+        "vm_name":"VPTL",
+        "vmx_data":{
+            "memsize": "1024",
+            "numvcpus":"1",
+            "cpuid.coresPerSocket":"1"
+        },
         "boot_command":[
             "<esc><esc><enter><wait>",
             "/install/vmlinuz auto",
@@ -29,8 +52,8 @@
             " kbd-chooser/method=us",
             " keyboard-configuration/layout=USA",
             " keyboard-configuration/variant=USA",
-            " file=http://10.0.1.151:8080/ubuntu1404.seed",
-            " ks=http://10.0.1.151:8080/ubuntu1404.ks.cfg",
+            " file=http://{{ .HTTPIP }}:{{ .HTTPPort }}/ubuntu1404.seed",
+            " ks=http://{{ .HTTPIP }}:{{ .HTTPPort }}/ubuntu1404.ks.cfg",
             " locale=en_US",
             " netcfg/get_domain=tester.com",
             " netcfg/get_hostname=Testy",
@@ -38,5 +61,10 @@
             "--",
             "<enter>"
         ]
+    }],
+    "post-processors": [{
+        "type": "vagrant",
+        "keep_input_artifact": true,
+        "output": "../vagrant_boxes/packer_virtperflinux_{{.Provider}}.box"
     }]
 }

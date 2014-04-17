@@ -189,7 +189,7 @@ d-i user-setup/encrypt-home boolean false
 #d-i apt-setup/security_path string /ubuntu
 
 ### Package selection
-tasksel tasksel/first multiselect standard
+tasksel tasksel/first multiselect ubuntu-minimal
 #tasksel tasksel/first multiselect lamp-server, print-server
 #tasksel tasksel/first multiselect kubuntu-desktop
 #d-i pkgsel/install-recommends true

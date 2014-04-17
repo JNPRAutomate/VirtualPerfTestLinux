@@ -1,3 +1,4 @@
 *.iso
 gogoHTTP*
 packer/output*
+*.box
