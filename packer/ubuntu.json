@@ -64,6 +64,7 @@
     }],
     "post-processors": [{
         "type": "vagrant",
+        "compression_level":4,
         "keep_input_artifact": true,
         "output": "../vagrant_boxes/packer_virtperflinux_{{.Provider}}.box"
     }]
